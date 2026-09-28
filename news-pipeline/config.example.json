@@ -1,0 +1,128 @@
+{
+  "groq_api_key": "YOUR_GROQ_API_KEY",
+  "groq_model": "openai/gpt-oss-20b",
+  "groq_api_url": "https://api.groq.com/openai/v1",
+  "openrouter": {
+    "api_key": "YOUR_OPENROUTER_API_KEY",
+    "model": "minimax/minimax-m3:free",
+    "base_url": "https://openrouter.ai/api/v1"
+  },
+  "newsapi": {
+    "api_key": "YOUR_NEWSAPI_KEY",
+    "base_url": "https://newsapi.org/v2",
+    "language": "en",
+    "sort_by": "publishedAt",
+    "page_size": 10
+  },
+  "brevo_smtp": {
+    "host": "smtp-relay.brevo.com",
+    "port": 587,
+    "username": "YOUR_BREVO_USERNAME",
+    "password": "YOUR_BREVO_SMTP_KEY",
+    "from_email": "your@email.com",
+    "from_name": "iTIN Pakistan News Bot",
+    "admin_email": "admin@yourdomain.com"
+  },
+  "wordpress": {
+    "wp_path": "/usr/local/bin/wp",
+    "site_url": "https://your-site.com",
+    "site_root": "/var/www/your-site"
+  },
+  "categories": {
+    "it-news": {
+      "query": "Pakistan technology IT",
+      "query_alt": "Pakistan 5G telecom digital",
+      "category_id": 2,
+      "category_name": "IT News"
+    },
+    "startups-entrepreneurs": {
+      "query": "Pakistan startup funding venture capital",
+      "query_alt": "Pakistan startup investment entrepreneur",
+      "category_id": 7,
+      "category_name": "Startups & Entrepreneurs"
+    },
+    "cybersecurity-tech": {
+      "query": "Pakistan cybersecurity data breach",
+      "query_alt": "Pakistan hacking security online safety",
+      "category_id": 11,
+      "category_name": "Cybersecurity & Tech"
+    },
+    "ai-cloud": {
+      "query": "Pakistan AI artificial intelligence cloud",
+      "query_alt": "Pakistan machine learning data center",
+      "category_id": 12,
+      "category_name": "AI & Cloud"
+    },
+    "reviews": {
+      "query": "Pakistan smartphone review gadget",
+      "query_alt": "Pakistan tech product launch phone",
+      "category_id": 13,
+      "category_name": "Reviews"
+    }
+  },
+  "rss_sources": {
+    "google_news": {
+      "enabled": true,
+      "base_url": "https://news.google.com/rss/search",
+      "params": {
+        "hl": "en-PK",
+        "gl": "PK",
+        "ceid": "PK:en"
+      }
+    },
+    "techjuice": {
+      "enabled": true,
+      "url": "https://techjuice.pk/feed/",
+      "category": "it-news"
+    },
+    "propakistani": {
+      "enabled": true,
+      "url": "https://propakistani.pk/feed/",
+      "category": "it-news"
+    },
+    "arynews": {
+      "enabled": true,
+      "url": "https://arynews.tv/feed/",
+      "category": "it-news"
+    },
+    "techcrunch": {
+      "enabled": true,
+      "url": "https://techcrunch.com/feed/",
+      "category": "startups-entrepreneurs"
+    }
+  },
+  "trusted_sources": [
+    "dawn.com",
+    "businessrecorder.com",
+    "propakistani.com",
+    "techcrunch.com",
+    "reuters.com",
+    "thenews.com.pk",
+    "geo.tv",
+    "arynews.tv",
+    "samaa.tv",
+    "tribune.com.pk",
+    "pakistantoday.com.pk",
+    "app.com.pk",
+    "brevo.com",
+    "techjuice.pk",
+    "profit.pk"
+  ],
+  "youtube": {
+    "api_key": "YOUR_YOUTUBE_API_KEY",
+    "max_results": 3,
+    "recent_days": 3
+  },
+  "pipeline": {
+    "max_articles_per_category": 5,
+    "max_total_per_run": 10,
+    "min_word_count": 200,
+    "max_word_count": 500,
+    "rss_fetch_timeout": 15,
+    "min_summary_length": 40
+  },
+  "digest": {
+    "send_hour_utc": 9,
+    "admin_email": "admin@yourdomain.com"
+  }
+}
