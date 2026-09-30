@@ -230,7 +230,7 @@ if ($breaking_query->have_posts()) :
                             <?php if ($post_img) : ?>
                                 <img src="<?php echo esc_url($post_img); ?>" alt="<?php echo esc_attr($post_title); ?>" loading="lazy" />
                             <?php else : ?>
-                                <div class="card-placeholder"></div>
+                                <img src="<?php echo esc_url(get_site_url() . '/wp-content/uploads/2026/08/itin-logo-pakistan-01-300x114.png'); ?>" alt="<?php echo esc_attr($post_title); ?>" loading="lazy" style="object-fit: contain; background: #f0f0f0;" />
                             <?php endif; ?>
                             <?php if ($post_cat_name) : ?>
                                 <span class="cat-badge cat-badge-<?php echo esc_attr($post_catSlug); ?>" style="background-color: <?php echo esc_attr($badge_color); ?>;"><?php echo esc_html($post_cat_name); ?></span>

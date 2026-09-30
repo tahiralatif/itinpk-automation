@@ -143,16 +143,22 @@ POLITICAL_KEYWORDS = [
 ]
 
 
-def api_get(url, params, timeout=15):
-    """Make a YouTube API GET request."""
-    full_url = f"{url}?{urllib.parse.urlencode(params)}"
-    try:
-        req = urllib.request.Request(full_url, headers={"User-Agent": "iTIN-Pipeline/1.0"})
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return json.loads(resp.read().decode())
-    except Exception as e:
-        logger.error(f"API error: {e}")
-        return None
+def api_get(url, params, timeout=15, retries=3):
+    """Make a YouTube API GET request with retry and backoff."""
+    for attempt in range(retries):
+        full_url = f"{url}?{urllib.parse.urlencode(params)}"
+        try:
+            req = urllib.request.Request(full_url, headers={"User-Agent": "iTIN-Pipeline/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode())
+        except Exception as e:
+            logger.error(f"API error (attempt {attempt+1}/{retries}): {e}")
+            if attempt < retries - 1:
+                wait = (attempt + 1) * 5  # 5s, 10s, 15s backoff
+                logger.info(f"  Retrying in {wait}s...")
+                import time
+                time.sleep(wait)
+    return None
 
 
 def search_videos(query, max_results=10, recent_days=3):
@@ -175,6 +181,10 @@ def search_videos(query, max_results=10, recent_days=3):
     data = api_get(SEARCH_URL, params)
     if not data:
         return []
+    
+    # Delay between API calls to avoid rate limiting
+    import time
+    time.sleep(2)
 
     videos = []
     for item in data.get("items", []):
@@ -394,11 +404,14 @@ def main():
         total_videos += len(videos)
         logger.info(f"  -> {len(videos)} videos saved for {cat_config['name']}")
 
-    # Write output
-    with open(OUTPUT_FILE, "w") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
-
-    logger.info(f"\nTotal: {total_videos} videos + hero across {len(CATEGORY_QUERIES)} categories")
+    # Write output — but only if we got results (protect against rate-limit wipes)
+    if total_videos > 0 or output.get("hero"):
+        with open(OUTPUT_FILE, "w") as f:
+            json.dump(output, f, indent=2, ensure_ascii=False)
+        logger.info(f"\nTotal: {total_videos} videos + hero across {len(CATEGORY_QUERIES)} categories")
+    else:
+        logger.warning(f"\nSKIP: Got 0 videos total — preserving existing {OUTPUT_FILE}")
+    
     logger.info(f"Output: {OUTPUT_FILE}")
     logger.info("=" * 60)
 
